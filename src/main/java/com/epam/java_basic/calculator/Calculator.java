@@ -8,6 +8,7 @@ import java.util.Scanner;
 import static java.lang.Double.POSITIVE_INFINITY;
 
 public class Calculator {
+    private static final int DEFAULT_PRECISION = 2;
     int precision = 2;
 
 
@@ -16,32 +17,26 @@ public class Calculator {
     }
 
     public double add(double a, double b) {
-        double result = a + b;
-        return result;
+        BigDecimal result = BigDecimal.valueOf(a).add(BigDecimal.valueOf(b));
+        return result.setScale(precision, RoundingMode.HALF_UP).doubleValue();
     }
 
     public double subtract(double a, double b) {
-        double result = a - b;
-        return result;
+        BigDecimal result = BigDecimal.valueOf(a).subtract(BigDecimal.valueOf(b));
+        return result.setScale(precision, RoundingMode.HALF_UP).doubleValue();
     }
 
     public double multiply(double a, double b) {
-        double result = a * b;
-        BigDecimal db = new BigDecimal(result).setScale(precision, RoundingMode.HALF_UP);
-        double finalResult = db.doubleValue();
-        return finalResult;
+        BigDecimal result = BigDecimal.valueOf(a).multiply(BigDecimal.valueOf(b));
+        return result.setScale(precision, RoundingMode.HALF_UP).doubleValue();
     }
 
+
     public double div(double a, double b) {
-        double result = a / b;
-        double negativeInfinity = Double.longBitsToDouble(0xfff0000000000000L);
-        double positiveInfinity = Double.longBitsToDouble(0x7ff0000000000000L);
-        if ( a < 0.0 && b == 0 ) {
-            return negativeInfinity;}
-            if (b == 0 && a > 0.0) {
-                return positiveInfinity;}
-                BigDecimal db = new BigDecimal(result).setScale(precision, RoundingMode.HALF_UP);
-                double finalResult = db.doubleValue();
-                return finalResult;
-            }
-        }
+        if (b == 0) {
+            return a < 0 ? Double.NEGATIVE_INFINITY : Double.POSITIVE_INFINITY;}
+        BigDecimal result = BigDecimal.valueOf(a).divide(BigDecimal.valueOf(b), precision, RoundingMode.HALF_UP);
+        return result.doubleValue();
+    }
+
+}

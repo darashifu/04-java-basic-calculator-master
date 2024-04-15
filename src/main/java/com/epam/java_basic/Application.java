@@ -19,32 +19,36 @@ public class Application {
     public static void main(String[] args) {
         int precision = 2;
         Calculator calculator = new Calculator(precision);
-        DecimalFormat decimalFormat = new DecimalFormat("#.##");
 
-        Scanner temp = new Scanner(System.in);
-        System.out.println("Enter the first number:");
-        double a = temp.nextDouble();
-        System.out.println("Enter the second number:");
-        double b = temp.nextDouble();
-        System.out.println("Enter operator (+, -, *, /):");
-        String operator = temp.next();
+        try (Scanner scanner = new Scanner(System.in)) {
+            System.out.println("Enter the first number:");
+            double a = scanner.nextDouble();
+            System.out.println("Enter the second number:");
+            double b = scanner.nextDouble();
+            System.out.println("Enter operator (+, -, *, /):");
+            String operator = scanner.next();
 
-        if (operator.equals("+")) {
-            double result = calculator.add(a, b);
-            System.out.println("Result: " + (result));
-        }
-        if (operator.equals("-")) {
-            double result2 = calculator.subtract(a, b);
-            System.out.println("Result: " + result2);
-        }
-        if (operator.equals("*")) {
-            double result3 = calculator.multiply(a, b);
-            System.out.println("Result: " + result3);
-        }
-        if (operator.equals("/")) {
-            double result4 = calculator.div(a, b);
-            System.out.println("Result: " + result4);
+            double result = 0;
+            switch (operator) {
+                case "+":
+                    result = calculator.add(a, b);
+                    break;
+                case "-":
+                    result = calculator.subtract(a, b);
+                    break;
+                case "*":
+                    result = calculator.multiply(a, b);
+                    break;
+                case "/":
+                    result = calculator.div(a, b);
+                    break;
+                default:
+                    System.out.println("Invalid operator!");
+                    return;
+            }
+            System.out.println("Result: " + result);
         }
     }
+
 }
 
